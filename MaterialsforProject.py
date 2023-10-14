@@ -39,20 +39,20 @@ def caesar_letter(letter,task="encryption"): # We pass 2 arguments: letter, that
         
 
 def vignere_letter(letter, key, curr_index, task = "encryption"):
-    if task == "encryption":
+    if task.lower() == "encryption":
         if (letter>='A' and letter<='Z') or (letter >= 'a' and letter <='z'):
             if letter.isupper():
-                return chr(65 + ((ord(letter)-65 + ord((key[curr_index]).upper())-65) % 26))
+                return chr(ord('A')+(ord(letter)+ord(key[curr_index].upper()))%26)
             elif letter.islower():
-                return chr(97 + ((ord(letter)-97 + ord((key[curr_index]).lower())-97) % 26))
+                return chr(ord('A')+(ord(letter.upper())+ord(key[curr_index].upper()))%26).lower()
                 
         else: # If letter is actually a symbol. We DO NOT change it
             return letter
-    else : #For Decryption
+    elif task.lower() == "decryption" : #For Decryption
         if (letter>='A' and letter<='Z') or (letter >= 'a' and letter <='z'):
             if letter.isupper():
-                return chr(65 + (abs((ord(letter) - ord((key[curr_index]).upper())))%26))
+                return chr(ord('A') + (abs((ord(letter) - ord((key[curr_index]).upper())))%26))
             elif letter.islower():
-                return chr(97 + (abs((ord(letter) - ord((key[curr_index]).lower())))%26))
+                return chr(ord('A') + (abs((ord(letter.upper()) - ord((key[curr_index]).upper()))))%26).lower()
         else: # If letter is actually a symbol. We DO NOT change it
             return letter
