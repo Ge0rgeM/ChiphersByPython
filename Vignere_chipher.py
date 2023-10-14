@@ -6,14 +6,20 @@ class GetUserText():
 
     def vignere_encrypt(self, key):
         result = ""
+        extra_symbols = 0
         for i in range(0,len(self.user_text)):
-            result += vignere_letter(self.user_text[i], key, curr_index = i)
+            if check_symbol(self.user_text[i]) == "Extra Symbol":
+                extra_symbols += 1
+            result += vignere_letter(self.user_text[i], key, curr_index = i-extra_symbols)
         self.user_text = result
     
     def vignere_decrypt(self, key):
         result = ""
+        extra_symbols = 0
         for i in range(0,len(self.user_text)):
-            result += vignere_letter(self.user_text[i], key, curr_index = i, task = "decryption")
+            if check_symbol(self.user_text[i]) == "Extra Symbol":
+                extra_symbols += 1
+            result += vignere_letter(self.user_text[i], key, curr_index = i-extra_symbols, task = "decryption")
         self.user_text = result
     
     def getUserText(self):
@@ -38,14 +44,20 @@ class GetUserKey:
     def getKey(self):
         return self.user_key
 
-
-user_text = GetUserText(input("Word: "))
-user_key = GetUserKey(input("Key: "))
-user_key.modify_user_key(userText = user_text.getUserText())
-print(f"userKey: {user_key.getKey()}")
-
-user_text.vignere_encrypt(key = user_key.getKey())
-print(f"Encr: {user_text.getUserText()}")
-
-user_text.vignere_decrypt(key = user_key.getKey())
-print(f"Decr: {user_text.getUserText()}")
+def main():
+    user_text = GetUserText(input("Word: "))
+    user_key = GetUserKey(input("Key: "))
+    user_key.modify_user_key(userText = user_text.getUserText())
+    print(f"userKey: {user_key.getKey()}")
+    
+    user_text.vignere_encrypt(key = user_key.getKey())
+    print(f"Encr: {user_text.getUserText()}")
+    
+    user_text.vignere_decrypt(key = user_key.getKey())
+    print(f"Decr: {user_text.getUserText()}")
+    
+    
+    
+main()
+    
+    
