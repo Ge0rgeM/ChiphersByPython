@@ -1,6 +1,6 @@
 from MaterialsforProject import vignere_letter
 
-class GetUserText:
+class GetUserText():
     def __init__(self, user_input):
         self.user_text = user_input
 
@@ -18,7 +18,8 @@ class GetUserText:
     
     def getUserText(self):
         return self.user_text
-
+        
+        
 class GetUserKey:
     def __init__(self, user_input):
         self.user_key = user_input
@@ -37,6 +38,7 @@ class GetUserKey:
     def getKey(self):
         return self.user_key
 
+
 user_text = GetUserText(input("Word: "))
 user_key = GetUserKey(input("Key: "))
 user_key.modify_user_key(userText = user_text.getUserText())
@@ -47,4 +49,3 @@ print(f"Encr: {user_text.getUserText()}")
 
 user_text.vignere_decrypt(key = user_key.getKey())
 print(f"Decr: {user_text.getUserText()}")
-# print(ord('G'))
