@@ -51,8 +51,14 @@ def vignere_letter(letter, key, curr_index, task = "encryption"):
     elif task.lower() == "decryption" : #For Decryption
         if (letter>='A' and letter<='Z') or (letter >= 'a' and letter <='z'):
             if letter.isupper():
-                return chr(ord('A') + (abs((ord(letter) - ord((key[curr_index]).upper())))%26))
+                return chr(ord('A') + ((ord(letter) - ord((key[curr_index]).upper()))%26))
             elif letter.islower():
-                return chr(ord('A') + (abs((ord(letter.upper()) - ord((key[curr_index]).upper()))))%26).lower()
+                return chr(ord('A') + ((ord(letter.upper()) - ord((key[curr_index]).upper())))%26).lower()
         else: # If letter is actually a symbol. We DO NOT change it
             return letter
+
+def check_symbol(symbol):
+    if (symbol>='A' and symbol<='Z') or (symbol >= 'a' and symbol <='z'):
+        return "Letter"
+    else:
+        return "Extra Symbol"
