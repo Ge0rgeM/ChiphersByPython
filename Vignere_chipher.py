@@ -1,30 +1,37 @@
-from MaterialsforProject import vignere_letter
+from MaterialsforProject import vigenere_letter
+from MaterialsforProject import check_symbol
+from MaterialsforProject import greeting
+from MaterialsforProject import goodbye
 
 class GetUserText():
     def __init__(self, user_input):
         self.user_text = user_input
 
-    def vignere_encrypt(self, key):
+    def vigenere_encrypt(self, key):
         result = ""
         extra_symbols = 0
         for i in range(0,len(self.user_text)):
+            #we need to track number of extra  symbols in the text, so we can pass correct index to vigenere_letter function
+            # in other case index of word and key won't match
             if check_symbol(self.user_text[i]) == "Extra Symbol":
                 extra_symbols += 1
-            result += vignere_letter(self.user_text[i], key, curr_index = i-extra_symbols)
+
+            result += vigenere_letter(self.user_text[i], key, curr_index = i-extra_symbols)
         self.user_text = result
     
-    def vignere_decrypt(self, key):
+    def vigenere_decrypt(self, key):
         result = ""
         extra_symbols = 0
         for i in range(0,len(self.user_text)):
+            #we need to track number of extra  symbols in the text, so we can pass correct index to vigenere_letter function
+            # in other case index of word and key won't match
             if check_symbol(self.user_text[i]) == "Extra Symbol":
-                extra_symbols += 1
-            # else:
-            #     i-=1 
-            result += vignere_letter(self.user_text[i], key, curr_index = i-extra_symbols, task = "decryption")
+                extra_symbols += 1 
+
+            result += vigenere_letter(self.user_text[i], key, curr_index = i-extra_symbols, task = "decryption")
         self.user_text = result
     
-    def getUserText(self):
+    def getUserText(self): #returns user text
         return self.user_text
         
         
@@ -32,24 +39,28 @@ class GetUserKey:
     def __init__(self, user_input):
         self.user_key = user_input
 
+    # we modify user_key if it is shorter than user_text.
     def modify_user_key(self,userText):
         if len(self.user_key) <= len(userText):
             index = 0
             original_user_key = self.user_key
-            while len(self.user_key) != len(userText):
+            #unless user_key is not same length the given keyword is repeated in a circular manner 
+            #until it matches the length of the userText.
+            while len(self.user_key) != len(userText): 
                 if index == len(original_user_key):
                     index = 0
 
                 self.user_key += self.user_key[index]
                 index += 1
 
+    #checks that user_key is only symbols
     def is_key_valid(self):
         for i in self.user_key:
             if check_symbol(i) == "Extra Symbol":
                 return False
         return len(self.user_key) #If key is empty returns False, 0 == False
     
-    def getKey(self):
+    def getKey(self): #returns user_key
         return self.user_key
 
 def handle_user_text():
@@ -89,7 +100,7 @@ def handle_user_response():
             print("New Text --> 3")
             print("For Exit --> -1")
             user_response = int(input("Your Response: "))
-            if user_response != 1 and user_response != 2 and user_response != 3 and user_response != -1:
+            if user_response != 1 and user_response != 2 and user_response != 3 and user_response != -1: #is user typed none of these numbers
                 raise ValueError()
             print("")
             break;
@@ -100,6 +111,7 @@ def handle_user_response():
     
     
 def main():
+    greeting()
     user_response = 3
     times_encrypted = 0
     while True:
@@ -110,6 +122,7 @@ def main():
         user_response = handle_user_response()
         
         if user_response == -1:
+            goodbye()
             print("It was fun, Bye Bye :)")
             print("Kind Regards,")
             print("George M.")
@@ -124,16 +137,16 @@ def main():
             if times_encrypted + 1 == 27: #If user Encrypted his/her text so many times that now it is same as original
                 times_encrypted = 0
                 print("You encrypted too many times, now it is again original text ;)")
-            user_text.vignere_encrypt(user_key.getKey())
+            user_text.vigenere_encrypt(user_key.getKey())
             print(f"Your Encrypted Text: {user_text.getUserText()}")
             print("")
         
         if user_response == 2:
-            if times_encrypted - 1 < 0 : #If youser wants to decrypt not yet encrypted text
+            if times_encrypted - 1 < 0 : #If user wants to decrypt not yet encrypted text
                 print("This is already an original text")
                 continue
             times_encrypted -= 1 
-            user_text.vignere_decrypt(user_key.getKey()) 
+            user_text.vigenere_decrypt(user_key.getKey()) 
             print(f"Your Decrypted Text: {user_text.getUserText()}")
             print("")
     
