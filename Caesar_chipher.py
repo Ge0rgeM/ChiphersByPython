@@ -1,4 +1,6 @@
 from MaterialsforProject import caesar_letter
+from MaterialsforProject import greeting
+from MaterialsforProject import goodbye
 
 class GetUserText: 
     #Custom Class to modify user input as we please, Encrypting/Decrypting
@@ -55,6 +57,7 @@ def handle_user_response(): #Handle wrong/bad responses from user
     return user_response
 
 def main():
+    greeting()
     user_response = 3
     text = ""
     times_encrypted = 0
@@ -68,6 +71,7 @@ def main():
 
         #If user wants to exit program
         if user_response == -1:
+            goodbye()
             print("It was fun, Bye Bye :)")
             print("Kind Regards,")
             print("George M.")
@@ -91,7 +95,7 @@ def main():
 
         #If user chose 2 it means he/she wants to decrypte current text
         if user_response == 2:
-            if times_encrypted - 1 < 0 : #If youser wants to decrypt not yet encrypted text
+            if times_encrypted - 1 < 0 : #If user wants to decrypt not yet encrypted text
                 print("This is already an original text")
                 continue
             times_encrypted -= 1 #Counter for how many times we decrypted current text
